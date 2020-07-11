@@ -5,23 +5,20 @@ export const ALLITEMS =
                                     id: 102,
                                     name:'Logined',
                                     image: '/assests/images/logined.png',
-                                    category: 'Entry',
-                                    label:'ShopCart',
-                                    price:0,
-                                    featured: false,
-                                    chosen:false,
-                                    description:'LoginSuccessfull'
+                         
                                     },
                                     {
                                         id: 103,
                                         name:'LogOut',
                                         image: '/assests/images/logout.png',
-                                        category: 'Exit',
-                                        label:'ShopCart',
-                                        price:0,
-                                        featured: false,
-                                        chosen:false,
-                                        description:'LogoutSuccessfull'
+                                 
+                                        },
+                                        {
+                                            id: 104,
+                                        name:'Logo',
+                                        image: '/assests/images/blue.jpg',
+                                 
+
                                         }
     ];
 

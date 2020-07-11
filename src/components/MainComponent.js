@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
+import Panel from './PanelComponent';
 import {ALLITEMS} from '../data/allitems';
-
-// import {CLOTHES} from '../data/clothes';
-
 import {Switch,Route,Redirect,withRouter} from 'react-router-dom';
+import {ITEMS} from '../data/items';
 import {connect} from 'react-redux';
 import { COURSES } from '../data/courses';
 
+const mapStateToProps=(state)=>{
+    return{
+        allitems:state.allitems,
+        items:state.items,
+        courses:state.courses,
+      
+    }
+}
 
 class Main extends Component{
 
@@ -18,26 +25,29 @@ class Main extends Component{
         super(props);
 
         this.state={
-            // clothes:CLOTHES,
-            allitems:ALLITEMS,
-            courses:COURSES,
+            // allitems:ALLITEMS,
+            // courses:COURSES,
+            // items:ITEMS,
             username:'',
             password:'',
             prevdate:'',
             prevtime:'',
+            role:'',
             isloggedin:false
 
         };
         this.setidentity=this.setidentity.bind(this);
       
     }
-     
-    setidentity(username,password,date,time){
+
+    setidentity(username,password,date,time,role){
 
         this.setState({username:username});
         this.setState({password:password});
         this.setState({prevdate:date});
         this.setState({prevtime:time});
+        this.setState({prevdate:date});
+        this.setState({role:role});
 
         if(username=='' || password=='')
         {
@@ -47,6 +57,7 @@ class Main extends Component{
         else{
             this.setState({isloggedin:true});
         }
+      
         
     }
    
@@ -57,7 +68,8 @@ class Main extends Component{
         const Homepage=()=>{
             return(
                 <Home 
-                item={this.state.courses}
+                item={this.props.courses}
+                carouselitems={this.props.items}
                 username={this.state.username}
                 date={this.state.prevdate}
                 time={this.state.prevtime}
@@ -65,27 +77,40 @@ class Main extends Component{
             );
         }
 
-
         
         
     
         return(
             <>
-            <Header 
+            <Header
             setidentity={this.setidentity}
             isloggedin={this.state.isloggedin}
-            itemLogined={this.state.allitems.filter((item)=>item.id===102)[0]}
-            itemLogout={this.state.allitems.filter((item)=>item.id===103)[0]}
+            itemLogined={this.props.allitems.filter((item)=>item.id===102)[0]}
+            itemLogout={this.props.allitems.filter((item)=>item.id===103)[0]}
+            itemLogo={this.props.allitems.filter((item)=>item.id===104)[0]}
 
-
+            username={this.state.username}
             />
+             <Panel
+             isloggedin={this.state.isloggedin}
+             role={this.state.role}
+             username={this.state.username}
+             date={this.state.prevdate}
+             time={this.state.prevtime}
+             allcourses={this.props.courses}
+             
+             />
             <Switch>
             
-            <Route path="/home" component={Homepage}></Route>
-            <Redirect to="/home"/>
+            <Route exact path="/home" component={Homepage}></Route>
+            <Redirect to="/home" />
+
             </Switch>
             
-            <Footer/>
+            <Footer
+            itemLogo={this.props.allitems.filter((item)=>item.id===104)[0]}
+
+            />
             </>
             
         );
@@ -93,4 +118,4 @@ class Main extends Component{
 
 }
 
-export default Main;
+export default withRouter(connect(mapStateToProps)(Main));

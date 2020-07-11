@@ -6,42 +6,42 @@ export const COURSES =
                                     name:'Algorithms',
                                     image: '/assests/images/algo.jpg',
                                     points:10,
-                                    description:'LoginSuccessfull'
+                                    description:'Specializtion'
                                     },
                                     {
                                         id: 2,
                                         name:'Plant Nomenclature',
                                         image: '/assests/images/plant.jpg',
                                         points:10,
-                                        description:'LogoutSuccessfull'
+                                        description:'Specializtion'
                                         }
                                         , {
                                             id: 3,
                                             name:'Basic Science',
                                             image: '/assests/images/basicscience.jpg',
                                             points:10,
-                                            description:'LoginSuccessfull'
+                                            description:'Specializtion'
                                             },
                                             {
                                                 id: 4,
                                                 name:'Astronomy',
                                                 image: '/assests/images/astro.jpeg',
                                                 points:10,
-                                                description:'LogoutSuccessfull'
+                                                description:'Specializtion'
                                                 },
                                                 {
                                                     id: 5,
                                                     name:'Mathematics',
                                                     image: '/assests/images/maths.jpg',
                                                     points:10,
-                                                    description:'LoginSuccessfull'
+                                                    description:'Specializtion'
                                                     },
                                                     {
                                                         id: 6,
                                                         name:'English Proficiency',
                                                         image: '/assests/images/eng.jpg',
                                                         points:10,
-                                                        description:'LogoutSuccessfull'
+                                                        description:'Specializtion'
                                                         }
                                                        ,
                                                             {
@@ -49,14 +49,14 @@ export const COURSES =
                                                                 name:'Social Sciences',
                                                                 image: '/assests/images/social.jpg',
                                                                 points:10,
-                                                                description:'LogoutSuccessfull'
+                                                                description:'Specializtion'
                                                                 },
                                                                 {
                                                                     id: 8,
                                                                     name:'BlockChain',
                                                                     image: '/assests/images/block.jpg',
                                                                     points:10,
-                                                                    description:'LogoutSuccessfull'
+                                                                    description:'Specializtion'
                                                                     }
     ];
 

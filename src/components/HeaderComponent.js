@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { Navbar, NavbarBrand, Jumbotron,Nav,NavbarToggler,
     Collapse,NavItem,Modal,ModalBody, ModalHeader,Button,FormGroup,Row,Col,Input,Label,Card ,CardImg} from 'reactstrap';
 import {NavLink} from 'react-router-dom';
+import {Switch,Route,Redirect,withRouter} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 
 import {LocalForm ,Control,Errors,actions} from 'react-redux-form';
+import UserPanel from './UserPanelComponent';
 //form validation
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -17,10 +20,16 @@ function  Logout(props){
     if(props.isloggedin) 
     {   
         return(
-            <Button color="primary" onClick={()=>{props.setidentity('','','',''); props.toggleLogout()  }}>
+            <>
+            <Button color="success">
+            <span className="fa fa-user fa-lg" ></span>
+            Welcome {props.username} !
+            </Button>
+            
+            <Button color="primary" onClick={()=>{props.setidentity('','','','',''); props.toggleLogout()  }}>
             Logout
             </Button>
-
+            </>
         );
     }else{
         return(
@@ -41,7 +50,7 @@ function  Logout(props){
                 
 
                 <Button onClick={props.toggleModal} color="warning">
-                <span className="fa fa-sign-in fa-lg"></span>Login
+                <span className="fa fa-user fa-lg"></span>Login
                  </Button>
                 
 
@@ -61,8 +70,12 @@ function  Logout(props){
           
             
           
+
             }
 
+        
+
+          
 
 class Header extends Component {
 
@@ -87,6 +100,7 @@ class Header extends Component {
         this.toggleIncorrect=this.toggleIncorrect.bind(this);
         this.toggleCorrect=this.toggleCorrect.bind(this);
         this.toggleLogout=this.toggleLogout.bind(this);
+        
     }
 
     toggleNav()
@@ -115,14 +129,16 @@ class Header extends Component {
   {
       this.setState({isLoggedOut:!this.state.isLoggedOut});
   }
- 
+
+
+
   
 
   handleLogin(values){
-    
     const setidentity=this.props.setidentity;
     const toggleIncorrect=this.toggleIncorrect;
     const toggleCorrect=this.toggleCorrect;
+   
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     var today = new Date();
@@ -148,10 +164,12 @@ class Header extends Component {
       {
           var prevdate=data.previouslogindate;
           var prevtime=data.previouslogintime;
+          var role=data.role;
           
-       setidentity(username,password,prevdate,prevtime);
+       setidentity(username,password,prevdate,prevtime,role);
 
        toggleCorrect();
+
        fetch(`http://localhost:4001/updatelogins`,{
         method:'POST',
         mode:'cors',
@@ -166,10 +184,11 @@ class Header extends Component {
         })
 
       });
+
        
       }
       else{
-          setidentity('','','','');
+          setidentity('','','','','');
           toggleIncorrect();
       }
 
@@ -202,6 +221,7 @@ var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
   }
 
   render() {
+      
     return(
     <>
       <Navbar dark expand="md">
@@ -209,7 +229,15 @@ var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
 
         <NavbarToggler onClick={this.toggleNav}/>
 
-        <NavbarBrand href="/">BlueTech</NavbarBrand>
+        <NavbarBrand href="/home"> <img
+        src={this.props.itemLogo.image}
+        width="20"
+        height="20"
+        className="d-inline-block align-top"
+        alt="React Bootstrap logo"
+        class="rounded-circle"
+        
+      /> BlueTech </NavbarBrand>
 
             
       <Collapse isOpen={this.state.isNavOpen} navbar>
@@ -221,19 +249,19 @@ var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
           </NavLink>
       </NavItem>
       <NavItem>
-          <NavLink className="nav-link" to="/aboutus">
+          <NavLink className="nav-link" to="#">
              <span className="fa fa-info fa-lg"></span>
              Aboutus
           </NavLink>
       </NavItem>
       <NavItem>
-          <NavLink className="nav-link" to="/categories">
+          <NavLink className="nav-link" to="#">
              <span className="fa fa-list fa-lg"></span>
-             Categories
+              Syllabus
           </NavLink>
       </NavItem>
       <NavItem>
-          <NavLink className="nav-link" to="/contactus">
+          <NavLink className="nav-link" to="#">
              <span className="fa fa-address-card fa-lg"></span>
              Contactus
           </NavLink>
@@ -244,7 +272,7 @@ var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
         <NavItem>
         
           <Login isloggedin={this.props.isloggedin} toggleModal={this.toggleModal} toggleSignup={this.toggleSignup}/>
-          <Logout isloggedin={this.props.isloggedin} toggleLogout={this.toggleLogout}  setidentity={this.props.setidentity} />
+          <Logout isloggedin={this.props.isloggedin} toggleLogout={this.toggleLogout}  setidentity={this.props.setidentity} username={this.props.username} />
 
          </NavItem>
    </Nav>
@@ -259,8 +287,21 @@ var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
       <Jumbotron style={{background:"rgb(24, 160, 223)"}}>
            <div className="container">
                <div className="row row-header">
-                   <div className="col-12 align-items-center">
+                   <div className="col-6 align-items-center">
                        <h3 >Welcome to BlueTech</h3>
+                   </div>
+                   <div className="col-6 ">
+                    <div className="col offset-md-9">
+                    <img
+                    src={this.props.itemLogo.image}
+                    width="100"
+                    height="100"
+                    className="d-inline-block align-top"
+                    alt="React Bootstrap logo"
+                    class="rounded-circle"
+                    
+                  />
+                   </div>
                    </div>
                </div>
            </div>

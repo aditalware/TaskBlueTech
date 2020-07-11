@@ -21,8 +21,18 @@ function Footer(props) {
             </div>
             <div className="row justify-content-center">             
                 <div className="col-auto">
-                    <p>© Copyright 2020 BlueTech</p>
+                    <p>© Copyright 2020 BlueTech <img
+                    src={props.itemLogo.image}
+                    width="30"
+                    height="30"
+                    className="d-inline-block align-top"
+                    alt="React Bootstrap logo"
+                    class="rounded-circle"
+                    
+                  /></p>
+                    
                 </div>
+                  
             </div>
         </div>
     </div>

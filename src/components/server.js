@@ -34,7 +34,7 @@ app.post('/logins',(req,res)=>{
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-const verify='SELECT username,passwords,logindate,logintime from users';
+const verify='SELECT username,passwords,logindate,logintime,role from users';
 const updatelogindetails=`UPDATE users SET logindate = ${date}, logintime=${time} WHERE username = ${req.body.username};`;
 con.query(verify,(err,results)=>{
 
@@ -47,6 +47,7 @@ con.query(verify,(err,results)=>{
             var flag=false;
             var previouslogindate="";
             var previouslogintime="";
+            var role="User";
          while(results[i])
          {  
             
@@ -55,8 +56,8 @@ con.query(verify,(err,results)=>{
                  console.log('You are loggined successfully '+req.body.username);
                 previouslogindate=results[i].logindate;
                 previouslogintime=results[i].logintime;
-                // console.log(previouslogindate+previouslogintime);
-// console.log(results[i]);
+                role=results[i].role;
+                
                 flag=true;
                 
                  
@@ -68,7 +69,8 @@ con.query(verify,(err,results)=>{
               res.send({
             success:'true',
             previouslogindate:previouslogindate,
-            previouslogintime:previouslogintime
+            previouslogintime:previouslogintime,
+            role:role
         });
         }
         else{
@@ -86,7 +88,7 @@ con.query(verify,(err,results)=>{
 
 });
 
-//
+
 app.post('/updatelogins',(req,res)=>{
   
     // console.log(req.body);
@@ -109,6 +111,125 @@ con.query(updatelogindetails,(err,results)=>{
 
 });
 
+
+
+app.post('/getcomplete',(req,res)=>{
+  
+   
+
+var type="completed";
+const getarray=`Select courseid from usercourses where type='${type}' and username='${req.body.username}'`;
+con.query(getarray,(err,results)=>{
+    if(err){
+        console.log('someerror occured here'+err);
+    }
+        else{
+
+     var i=0;
+     var arr=[];
+     while(results[i])
+     {
+         var j=results[i].courseid;
+     arr= arr.concat(j);
+     
+      i++;
+     } 
+    
+     res.send({
+       completedarray:arr
+     });     
+        }
+    
+});
+
+
+});
+
+
+app.post('/getattempted',(req,res)=>{
+  
+   
+
+    var type="attempted";
+    const getarray=`Select courseid from usercourses where type='${type}' and username='${req.body.username}'`;
+    con.query(getarray,(err,results)=>{
+        
+        if(err){
+            console.log('someerror occured here'+err);
+        }
+            else{
+    
+         var i=0;
+         var arr=[];
+         while(results[i])
+         {
+             var j=results[i].courseid;
+         arr= arr.concat(j);
+         
+          i++;
+         } 
+        
+    
+         res.send({
+           attemptedarray:arr
+         });     
+            }
+        
+    });
+    
+    
+    });
+
+    app.get('/getusers',(req,res)=>{
+
+        const getdetail=`Select * from users where role='User'`;
+        con.query(getdetail,(err,results)=>{
+            if(err){
+                console.log('someerror'+err);
+                return res.send('error'+err);
+            }
+            else{
+             res.send({
+                 userdetails:results
+             });
+            }
+        });
+
+    });
+    app.post('/gettodo',(req,res)=>{
+    
+   
+
+        var type="todo";
+        const getarray=`Select courseid from usercourses where type='${type}' and username='${req.body.username}'`;
+        con.query(getarray,(err,results)=>{
+            
+            if(err){
+                console.log('someerror occured here'+err);
+            }
+                else{
+        
+             var i=0;
+             var arr=[];
+             while(results[i])
+             {
+                 var j=results[i].courseid;
+             arr= arr.concat(j);
+             
+              i++;
+             } 
+            
+             
+             res.send({
+               todoarray:arr
+             });     
+                }
+            
+        });
+        
+        
+        });
+    
 
 app.get('/signupcustomer',(req,res)=>{
 
